@@ -1,0 +1,791 @@
+:root {
+  /* Paleta base */
+  --bg: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --card: #f8fafc;
+  --border: #e2e8f0;
+  --green: #16a34a;
+  --black: #0b0f19;
+  --chip: #f1f5f9;
+}
+
+* { box-sizing: border-box; }
+
+/* Estrutura geral da página */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg);
+  background-image: url('https://18horas.com.br/wp-content/uploads/2023/03/em-3-anos-de-pandemia-quase-300-mil-marmitarias-abriram-no-brasil-diz-sebrae.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: var(--text);
+  display: flex;
+}
+
+#root {
+  width: 100%;
+}
+
+.sidebar {
+  width: 300px;
+  min-height: 100vh;
+  border-right: 1px solid var(--border);
+  background: #fff;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 16px;
+  overflow-y: auto;
+  transition: transform 0.25s ease;
+  z-index: 20;
+}
+
+/* Cabeçalho e navegação lateral */
+.sidebar-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+
+.sidebar-section {
+  margin-bottom: 20px;
+}
+
+.sidebar-nav {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0 16px;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.clock {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.main {
+  margin-left: 320px;
+  padding: 24px 24px 64px;
+  width: calc(100% - 320px);
+}
+
+.mobile-topbar {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 14px;
+  margin-bottom: 16px;
+  position: sticky;
+  top: 12px;
+  z-index: 5;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+}
+
+.hamburger {
+  border: none;
+  background: #0f172a;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.mobile-title {
+  font-weight: 700;
+}
+
+.page-switch {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  z-index: 15;
+}
+
+/* Layout principal de conteúdo */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 20px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+.card-compact {
+  padding: 14px 16px;
+}
+
+h2, h3 {
+  margin: 0 0 16px;
+}
+
+.card-compact h2 {
+  font-size: 1.05rem;
+  margin-bottom: 10px;
+}
+
+/* Cores temáticas dos cards principais */
+.card-new-order {
+  background-color: #fff7e6;
+}
+
+.card-menu-add {
+  background-color: #eaf7ff;
+}
+
+.card-company-add {
+  background-color: #eefbf0;
+}
+
+/* Dashboard */
+.dashboard-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.dashboard-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 260px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+.dashboard-value {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* Formulários e inputs */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+label {
+  font-weight: 500;
+  color: var(--muted);
+}
+
+input, textarea {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+select {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  font-size: 1rem;
+  font-family: inherit;
+  background: #fff;
+}
+
+textarea { resize: vertical; }
+
+/* Controles de quantidade */
+.qty-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.qty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.qty-btn {
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  min-width: 40px;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.qty-btn:hover {
+  border-color: #cbd5f5;
+}
+
+.qty-btn.active {
+  background: var(--black);
+  color: #fff;
+  border-color: var(--black);
+}
+
+.qty-clear {
+  background: #fee2e2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+/* Botões */
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.btn {
+  border: none;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #e2e8f0;
+}
+
+.btn-success {
+  background: var(--green);
+  color: #fff;
+}
+
+.btn-dark {
+  background: var(--black);
+  color: #fff;
+}
+
+.btn-outline {
+  background: #fff;
+  border: 1px solid var(--border);
+}
+
+.btn-sm {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+
+.btn-sm.danger {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Lista de cardápio */
+.menu-add {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 220px;
+  overflow: auto;
+}
+
+.menu-item {
+  display: grid;
+  grid-template-columns: 20px minmax(120px, 1fr) 66px 120px 28px;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.menu-qty-input {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.menu-qty-input:disabled {
+  background: #f8fafc;
+  color: #94a3b8;
+}
+
+.menu-note-input {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+
+.menu-note-input:disabled {
+  background: #f8fafc;
+  color: #94a3b8;
+}
+
+.menu-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+.menu-delete {
+  border: none;
+  background: #ef4444;
+  color: #fff;
+  border-radius: 8px;
+  width: 24px;
+  height: 24px;
+  font-weight: 700;
+  cursor: pointer;
+  line-height: 1;
+  justify-self: end;
+}
+
+.menu-tag {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--muted);
+  justify-self: end;
+}
+
+/* Página pública do cliente */
+.client-nav {
+  width: 100%;
+  padding: 18px 24px;
+  background: linear-gradient(90deg, rgba(11, 15, 25, 0.96), rgba(30, 41, 59, 0.94));
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.client-nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #f8fafc;
+  text-align: center;
+}
+
+.client-admin-link {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 1.35rem;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.client-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px;
+  background-image:
+    linear-gradient(rgba(15, 23, 42, 0.46), rgba(15, 23, 42, 0.46)),
+    url('https://18horas.com.br/wp-content/uploads/2023/03/em-3-anos-de-pandemia-quase-300-mil-marmitarias-abriram-no-brasil-diz-sebrae.jpg');
+  background-size: cover, 320px 220px;
+  background-position: center, 0 0;
+  background-repeat: no-repeat, repeat;
+  background-attachment: fixed, fixed;
+}
+
+.client-card {
+  width: min(920px, 100%);
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+  padding: 20px;
+}
+
+.client-card h1 {
+  margin: 0 0 8px;
+}
+
+.client-message {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.client-whatsapp-link {
+  display: inline-block;
+  margin-top: 10px;
+  text-decoration: none;
+}
+
+.admin-login-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(135deg, #0b0f19, #1e293b);
+}
+
+.admin-login-card {
+  width: min(420px, 100%);
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.35);
+}
+
+.admin-login-card h1 {
+  margin: 0 0 8px;
+}
+
+.admin-login-error {
+  margin-top: 10px;
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.helper {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
+/* Lista de empresas */
+.company-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 260px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.company-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.company-item.active {
+  border-color: #86efac;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+}
+
+.company-item span {
+  font-weight: 600;
+}
+
+.company-item small {
+  color: var(--muted);
+}
+
+.selected-company {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px dashed var(--border);
+  background: #fff;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Resumo e tabela */
+.summary {
+  margin: 20px 0;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.summary-items ul {
+  padding-left: 16px;
+}
+
+.table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.badge {
+  background: #e2e8f0;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+}
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  text-align: left;
+}
+
+th, td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.status {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+.status.active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status.cancelled {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.table-wrap .btn + .btn {
+  margin-left: 8px;
+}
+
+.cancel-qty-input {
+  width: 68px;
+  padding: 8px 10px;
+  margin-left: 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+/* Modal de confirmação */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+  animation: modal-fade 160ms ease-out;
+}
+
+.modal {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  width: min(92vw, 420px);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
+  animation: modal-pop 180ms ease-out;
+}
+
+.modal h3 {
+  margin: 0 0 8px;
+}
+
+.modal p {
+  margin: 0 0 16px;
+  color: var(--muted);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+@keyframes modal-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modal-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Área de impressão (etiquetas) */
+.print-area {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: 40mm 60mm;
+    margin: 0;
+  }
+
+  body {
+    margin: 0;
+    background: #fff;
+  }
+
+  body * { visibility: hidden; }
+  .print-area { display: block; }
+  #printArea, #printArea * { visibility: visible; }
+  #printArea { position: absolute; left: 0; top: 0; width: 40mm; }
+  .print-ticket {
+    width: 40mm;
+    height: 60mm;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #000;
+    padding: 2mm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    page-break-after: always;
+  }
+  .print-title {
+    font-weight: 800;
+    font-size: 17px;
+    line-height: 1.15;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    word-break: break-word;
+  }
+  .print-item {
+    margin-top: 4mm;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.1;
+    text-transform: uppercase;
+    word-break: break-word;
+  }
+  .print-line {
+    border-top: 1px dashed #000;
+    margin: 6px 0;
+  }
+  .print-row {
+    margin: 2px 0;
+  }
+  .print-ticket ul {
+    margin: 2px 0 4px;
+    padding-left: 14px;
+  }
+}
+
+/* Responsividade */
+@media (max-width: 1100px) {
+  .main { margin-left: 0; width: 100%; }
+  body { flex-direction: column; }
+  .grid-2 { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 900px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  .menu-item {
+    grid-template-columns: 20px 1fr 66px 28px;
+  }
+  .menu-note-input {
+    grid-column: 2 / 5;
+  }
+  .menu-tag {
+    display: none;
+  }
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .actions { flex-direction: column; }
+  .summary-grid { grid-template-columns: 1fr; }
+  .sidebar {
+    transform: translateX(-100%);
+    width: 85%;
+    max-width: 320px;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .overlay.show {
+    display: block;
+  }
+  .main {
+    margin-left: 0;
+    width: 100%;
+  }
+  .mobile-topbar {
+    display: flex;
+  }
+}
