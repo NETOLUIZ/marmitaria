@@ -9,7 +9,7 @@ export default function PainelPedidosPage({
   return (
     <section className="card">
       <div className="table-header">
-        <h3>Pedidos de Hoje</h3>
+        <h3>Pedidos da Empresa Hoje</h3>
         <div className="badge">Total {orders.length}</div>
       </div>
       <div className="table-wrap">

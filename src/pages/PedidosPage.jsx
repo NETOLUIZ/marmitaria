@@ -1,152 +1,275 @@
+import { homeCategories } from '../data/homeFeaturedMeals'
+
 export default function PedidosPage({
-  selectedCompany,
-  qty,
-  setQty,
   menuItems,
-  selectedItems,
-  toggleMenuItem,
-  itemQuantities,
-  updateItemQuantity,
-  itemNotes,
-  updateItemNote,
   deleteMenuItem,
-  address,
-  setAddress,
-  notes,
-  setNotes,
-  saveOrder,
-  buildTickets,
-  splitTotal,
-  qtyValue,
-  menuInput,
-  setMenuInput,
+  menuForm,
+  setMenuForm,
+  menuFormMessage,
   addMenuItem,
+  homePromo,
+  setHomePromo,
+  homePromoMessage,
+  saveHomePromo,
   addCompany
 }) {
+  function handleMenuFormChange(event) {
+    const { name, value } = event.target
+    setMenuForm((current) => ({ ...current, [name]: value }))
+  }
+
+  function handleHomePromoChange(event) {
+    const { name, value } = event.target
+    setHomePromo((current) => ({ ...current, [name]: value }))
+  }
+
   return (
-    <>
-      <section className="grid-2">
-        <div className="card card-new-order">
-          <h2>Novo Pedido</h2>
-          <div className="field">
-            <label>Empresa Selecionada</label>
-            <div className="selected-company">
-              {selectedCompany ? selectedCompany.name : 'Clique em uma empresa ao lado'}
-            </div>
-          </div>
-
-          <div className="field">
-            <label htmlFor="qty">Quantidade de Marmitas</label>
-            <input
-              type="number"
-              id="qty"
-              min="0"
-              placeholder="Ex: 10"
-              value={qty}
-              onChange={(event) => setQty(event.target.value)}
-            />
-          </div>
-
-          <div className="field">
-            <label>Cardápio do Dia</label>
-            <div className="menu-list">
-              {menuItems.map((item) => (
-                <label key={item.id} className="menu-item">
-                  <input
-                    type="checkbox"
-                    value={item.name}
-                    checked={selectedItems.includes(item.name)}
-                    onChange={(event) => toggleMenuItem(item.name, event.target.checked)}
-                  />
-                  <span className="menu-name">{item.name}</span>
-                  <input
-                    type="number"
-                    min="0"
-                    placeholder="Qtd"
-                    className="menu-qty-input"
-                    value={itemQuantities[item.name] || ''}
-                    onChange={(event) => updateItemQuantity(item.name, event.target.value)}
-                    disabled={!selectedItems.includes(item.name)}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Obs/Nome"
-                    className="menu-note-input"
-                    value={itemNotes[item.name] || ''}
-                    onChange={(event) => updateItemNote(item.name, event.target.value)}
-                    disabled={!selectedItems.includes(item.name)}
-                  />
-                  <button
-                    type="button"
-                    className="menu-delete"
-                    onClick={() => deleteMenuItem(item.id, item.name)}
-                  >
-                    x
-                  </button>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <div className="field">
-            <label htmlFor="address">Endereço (opcional)</label>
-            <input
-              type="text"
-              id="address"
-              placeholder="Rua, nº, bairro"
-              value={address}
-              onChange={(event) => setAddress(event.target.value)}
-            />
-          </div>
-          <div className="field">
-            <label htmlFor="notes">Observações</label>
-            <textarea
-              id="notes"
-              rows="3"
-              placeholder="Ex: sem salada, sem cebola..."
-              value={notes}
-              onChange={(event) => setNotes(event.target.value)}
-            />
-          </div>
-          <div className="actions">
-            <button className="btn btn-success" onClick={saveOrder}>
-              Salvar Pedido
-            </button>
-            <button className="btn btn-dark" onClick={buildTickets}>
-              Imprimir Pedido 40x60mm
-            </button>
-          </div>
-          <p className="helper">
-            Separacao dos itens: <strong>{splitTotal}</strong> / <strong>{qtyValue}</strong>
+    <section className="catalog-admin-page">
+      <div className="catalog-admin-hero">
+        <div>
+          <span className="catalog-admin-kicker">Painel de cardapio</span>
+          <h1>Monte pratos com cara de vitrine, nao de planilha</h1>
+          <p>
+            Cadastre os itens do cardapio com nome, categoria, preco, descricao e foto em uma
+            tela mais direta para operacao diaria.
           </p>
         </div>
+        <div className="catalog-admin-stats">
+          <div className="catalog-stat">
+            <strong>{menuItems.length}</strong>
+            <span>itens cadastrados</span>
+          </div>
+          <div className="catalog-stat">
+            <strong>{menuItems.filter((item) => item.image_url).length}</strong>
+            <span>com foto</span>
+          </div>
+        </div>
+      </div>
 
-        <div className="stack">
-          <div className="card card-compact card-menu-add">
-            <h2>Adicionar Itens do Cardápio</h2>
-            <div className="menu-add">
-              <input
-                type="text"
-                value={menuInput}
-                onChange={(event) => setMenuInput(event.target.value)}
-                placeholder="Digite um item e pressione Enter"
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') {
-                    event.preventDefault()
-                    addMenuItem()
-                  }
-                }}
-              />
-              <button className="btn btn-outline" onClick={addMenuItem}>
-                Adicionar
-              </button>
+      <div className="catalog-admin-grid">
+        <div className="catalog-builder card">
+          <div className="catalog-section-head">
+            <div>
+              <span className="catalog-badge">Criacao</span>
+              <h2>Novo card do cardapio</h2>
             </div>
-            <p className="helper"></p>
+            <p>Preencha os campos e deixe o prato pronto para aparecer de forma organizada.</p>
           </div>
 
-          <div className="card card-compact card-company-add">
-            <h2>Cadastrar Empresa</h2>
-            <form onSubmit={addCompany}>
+          <form
+            className="menu-add-form"
+            onSubmit={(event) => {
+              event.preventDefault()
+              addMenuItem()
+            }}
+          >
+            <div className="catalog-builder-grid">
+              <div className="catalog-form-column">
+                <div className="field">
+                  <label htmlFor="menuName">Nome do prato</label>
+                  <input
+                    id="menuName"
+                    name="name"
+                    type="text"
+                    value={menuForm.name}
+                    onChange={handleMenuFormChange}
+                    placeholder="Ex: Marmita de frango grelhado"
+                    required
+                  />
+                </div>
+                <div className="menu-add-grid">
+                  <div className="field">
+                    <label htmlFor="menuCategory">Categoria</label>
+                    <input
+                      id="menuCategory"
+                      name="category"
+                      type="text"
+                      value={menuForm.category}
+                      onChange={handleMenuFormChange}
+                      placeholder="Ex: Fitness"
+                    />
+                    <div className="catalog-category-chips">
+                      {homeCategories.map((category) => (
+                        <button
+                          key={category}
+                          type="button"
+                          className={`catalog-category-chip ${menuForm.category === category ? 'is-active' : ''}`}
+                          onClick={() => setMenuForm((current) => ({ ...current, category }))}
+                        >
+                          {category}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="field">
+                    <label htmlFor="menuPrice">Preco</label>
+                    <input
+                      id="menuPrice"
+                      name="price"
+                      type="text"
+                      inputMode="decimal"
+                      value={menuForm.price}
+                      onChange={handleMenuFormChange}
+                      placeholder="Ex: 22,90"
+                    />
+                  </div>
+                </div>
+                <div className="field">
+                  <label htmlFor="menuDescription">Descricao</label>
+                  <textarea
+                    id="menuDescription"
+                    name="description"
+                    rows="5"
+                    value={menuForm.description}
+                    onChange={handleMenuFormChange}
+                    placeholder="Ex: arroz, feijao, frango e salada"
+                  />
+                </div>
+                <div className="field">
+                  <label htmlFor="menuImageUrl">Foto do prato</label>
+                  <input
+                    id="menuImageUrl"
+                    name="imageUrl"
+                    type="url"
+                    value={menuForm.imageUrl}
+                    onChange={handleMenuFormChange}
+                    placeholder="https://site.com/foto-do-prato.jpg"
+                  />
+                </div>
+              </div>
+
+              <div className="catalog-preview-column">
+                <div className="catalog-preview-card">
+                  <span className="catalog-badge">Preview</span>
+                  <div className="catalog-preview-media">
+                    {menuForm.imageUrl ? (
+                      <img src={menuForm.imageUrl} alt={menuForm.name || 'Preview do prato'} />
+                    ) : (
+                      <div className="catalog-preview-placeholder">Foto do prato</div>
+                    )}
+                  </div>
+                  <div className="catalog-preview-body">
+                    <div className="catalog-preview-topline">
+                      <span>{menuForm.category || 'Categoria'}</span>
+                      <strong>{menuForm.price ? `R$ ${menuForm.price}` : 'Preco'}</strong>
+                    </div>
+                    <h3>{menuForm.name || 'Nome do prato'}</h3>
+                    <p>{menuForm.description || 'A descricao do prato aparecera aqui para facilitar a revisao.'}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="catalog-form-footer">
+              <button className="btn btn-dark catalog-submit" type="submit">
+                Salvar Item no Cardapio
+              </button>
+              <p className="helper">{menuFormMessage || 'Os itens cadastrados ficam disponiveis na biblioteca ao lado.'}</p>
+            </div>
+          </form>
+        </div>
+
+        <div className="catalog-side">
+          <div className="catalog-company card">
+            <div className="catalog-section-head">
+              <div>
+                <span className="catalog-badge">Home Promo</span>
+                <h2>Editar bloco de promocao</h2>
+              </div>
+              <p>Altere a div de promocao da tela inicial sem depender de backend.</p>
+            </div>
+
+            <form className="catalog-company-form" onSubmit={saveHomePromo}>
+              <div className="field">
+                <label htmlFor="promoKicker">Selo</label>
+                <input id="promoKicker" name="promo_kicker" type="text" value={homePromo.promo_kicker} onChange={handleHomePromoChange} />
+              </div>
+              <div className="field">
+                <label htmlFor="promoTitle">Titulo</label>
+                <input id="promoTitle" name="promo_title" type="text" value={homePromo.promo_title} onChange={handleHomePromoChange} />
+              </div>
+              <div className="field">
+                <label htmlFor="promoDescription">Descricao</label>
+                <textarea id="promoDescription" name="promo_description" rows="3" value={homePromo.promo_description} onChange={handleHomePromoChange} />
+              </div>
+              <div className="field">
+                <label htmlFor="promoCardTitle">Titulo do card</label>
+                <input id="promoCardTitle" name="promo_card_title" type="text" value={homePromo.promo_card_title} onChange={handleHomePromoChange} />
+              </div>
+              <div className="field">
+                <label htmlFor="promoCardDescription">Descricao do card</label>
+                <textarea id="promoCardDescription" name="promo_card_description" rows="3" value={homePromo.promo_card_description} onChange={handleHomePromoChange} />
+              </div>
+              <div className="field">
+                <label htmlFor="promoCardPrice">Preco</label>
+                <input id="promoCardPrice" name="promo_card_price" type="text" value={homePromo.promo_card_price} onChange={handleHomePromoChange} />
+              </div>
+              <button className="btn btn-outline" type="submit">
+                Salvar Promocao
+              </button>
+              <p className="helper">{homePromoMessage}</p>
+            </form>
+          </div>
+
+          <div className="catalog-library card">
+            <div className="catalog-section-head">
+              <div>
+                <span className="catalog-badge">Biblioteca</span>
+                <h2>Itens cadastrados</h2>
+              </div>
+              <p>Remova rapidamente o que nao faz mais parte do cardapio.</p>
+            </div>
+
+            <div className="catalog-list">
+              {menuItems.length === 0 ? (
+                <div className="catalog-empty-state">
+                  <strong>Nenhum prato cadastrado</strong>
+                  <span>Crie o primeiro item do cardapio para começar.</span>
+                </div>
+              ) : (
+                menuItems.map((item) => (
+                  <article key={item.id} className="catalog-list-item">
+                    <div className="catalog-list-media">
+                      {item.image_url ? (
+                        <img className="menu-thumb" src={item.image_url} alt={item.name} />
+                      ) : (
+                        <div className="catalog-list-placeholder">Sem foto</div>
+                      )}
+                    </div>
+                    <div className="menu-main">
+                      <span className="menu-name">{item.name}</span>
+                      <span className="menu-meta">
+                        {item.category || 'Sem categoria'}
+                        {item.price !== null && item.price !== undefined && item.price !== ''
+                          ? ` - R$ ${Number(item.price).toFixed(2).replace('.', ',')}`
+                          : ''}
+                      </span>
+                      {item.description ? <span className="menu-description">{item.description}</span> : null}
+                    </div>
+                    <button
+                      type="button"
+                      className="menu-delete"
+                      onClick={() => deleteMenuItem(item.id, item.name)}
+                      aria-label={`Remover ${item.name}`}
+                    >
+                      x
+                    </button>
+                  </article>
+                ))
+              )}
+            </div>
+          </div>
+
+          <div className="catalog-company card">
+            <div className="catalog-section-head">
+              <div>
+                <span className="catalog-badge">Cadastro</span>
+                <h2>Nova empresa</h2>
+              </div>
+              <p>Deixe a base de clientes pronta para receber os pedidos da empresa.</p>
+            </div>
+
+            <form className="catalog-company-form" onSubmit={addCompany}>
               <div className="field">
                 <label htmlFor="newCompany">Nome Fantasia</label>
                 <input type="text" id="newCompany" name="newCompany" placeholder="Ex: Mercantil Central" required />
@@ -161,40 +284,7 @@ export default function PedidosPage({
             </form>
           </div>
         </div>
-      </section>
-
-      <section className="summary card">
-        <h3>Resumo do Pedido</h3>
-        <div className="summary-grid">
-          <div>
-            <strong>Empresa:</strong> <span>{selectedCompany ? selectedCompany.name : '-'}</span>
-          </div>
-          <div>
-            <strong>Qtd Marmitas:</strong> <span>{qty || '-'}</span>
-          </div>
-          <div>
-            <strong>Endereço:</strong> <span>{address || '-'}</span>
-          </div>
-          <div>
-            <strong>Observação:</strong> <span>{notes || '-'}</span>
-          </div>
-        </div>
-        <div className="summary-items">
-          <strong>Itens selecionados:</strong>
-          <ul>
-            {selectedItems.length === 0 ? (
-              <li>Nenhum item selecionado</li>
-            ) : (
-              selectedItems.map((item) => (
-                <li key={item}>
-                  {item}: {itemQuantities[item] || 0}
-                  {itemNotes[item] ? ` (${itemNotes[item]})` : ''}
-                </li>
-              ))
-            )}
-          </ul>
-        </div>
-      </section>
-    </>
+      </div>
+    </section>
   )
 }
